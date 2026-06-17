@@ -35,7 +35,7 @@ resource "aws_security_group_rule" "http" {
 
 resource "aws_security_group_rule" "https" {
   count = var.enable_ssh ? 1 : 0
-  
+
   type              = "ingress"
   description       = "Allow HTTPS"
   from_port         = 443
