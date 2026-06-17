@@ -1,0 +1,16 @@
+---
+- name: Pull Nginx Docker image
+  become: true
+  docker_image:
+    name: nginx
+    source: pull
+
+- name: Run Nginx container
+  become: true
+  docker_container:
+    name: dev-nginx
+    image: nginx
+    state: started
+    restart_policy: always
+    ports:
+      - "80:80"

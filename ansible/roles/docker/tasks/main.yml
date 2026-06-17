@@ -1,0 +1,26 @@
+---
+- name: Update all packages
+  become: true
+  dnf:
+    name: "*"
+    state: latest
+
+- name: Install Docker
+  become: true
+  dnf:
+    name: docker
+    state: present
+
+- name: Start and enable Docker
+  become: true
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Add ec2-user to docker group
+  become: true
+  user:
+    name: ec2-user
+    groups: docker
+    append: true

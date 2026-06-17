@@ -1,0 +1,5 @@
+---
+- name: Deploy sample app container
+  hosts: dev
+  roles:
+    - app
