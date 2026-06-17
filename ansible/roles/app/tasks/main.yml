@@ -5,12 +5,34 @@
     name: nginx
     source: pull
 
+- name: Remove existing Nginx container
+  become: true
+  docker_container:
+    name: "{{ container_name }}"
+    state: absent
+
 - name: Run Nginx container
   become: true
   docker_container:
-    name: dev-nginx
+    name: "{{ container_name }}"
     image: nginx
     state: started
     restart_policy: always
     ports:
       - "80:80"
+
+- name: Create custom HTML page inside container
+  become: true
+  shell: |
+    docker exec {{ container_name }} sh -c 'cat > /usr/share/nginx/html/index.html <<EOF
+    <html>
+      <head>
+        <title>{{ env_name }} Environment</title>
+      </head>
+      <body style="font-family: Arial; text-align: center; margin-top: 80px;">
+        <h1>{{ env_name | upper }} Environment</h1>
+        <h2>Deployed using Terraform and Ansible</h2>
+        <p>Dockerized Nginx container running on AWS EC2</p>
+      </body>
+    </html>
+    EOF'

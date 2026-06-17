@@ -1,5 +1,5 @@
 ---
 - name: Setup Docker on dev server
-  hosts: dev
+  hosts: all
   roles:
     - docker
