@@ -46,8 +46,10 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Plan
+      - name: Terraform Plan - dev/test
+        if: matrix.environment != 'prod'
         run: terraform plan -input=false
 
-      - name: Terraform Plan
+      - name: Terraform Plan - prod
+        if: matrix.environment == 'prod'
         run: terraform plan -input=false -var="db_password=${{ secrets.TF_VAR_DB_PASSWORD }}"
